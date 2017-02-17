@@ -118,7 +118,7 @@ public class DrcomTask implements Runnable {
         } catch (SocketTimeoutException e) {
             log.debug("通信超时", e);
             exception = true;
-            FxUtil.showAlertWithException(new DrcomException(__("Waisting server response time out.\nIt may caused by Network state changed or your device slept too long.\nPlease try login again.\n"),
+            FxUtil.showAlertWithException(new DrcomException(__("Waiting server response time out.\nIt may caused by Network state changed or your device slept too long.\nPlease try login again.\n"),
                     e, DrcomException.CODE.ex_timeout));
         } catch (IOException e) {
             log.debug("IO 异常", e);

@@ -204,7 +204,7 @@ msgstr "发送认证信息失败! {0}"
 
 #: com/youthlin/jlu/drcom/task/DrcomTask.java:121
 msgid ""
-"Waisting server response time out.\n"
+"Waiting server response time out.\n"
 "It may caused by Network state changed or your device slept too long.\n"
 "Please try login again.\n"
 msgstr ""
