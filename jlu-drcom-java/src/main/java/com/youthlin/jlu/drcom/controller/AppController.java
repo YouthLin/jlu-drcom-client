@@ -144,7 +144,7 @@ public class AppController implements Initializable {
                 break;
             case logged:
                 imageView.setVisible(false);
-                statusLabel.setText(__("Logout"));
+                statusLabel.setText(__("Ready"));
                 loginButton.setText(__("Logout(L)"));
                 loginButton.setDisable(false);
                 setUIDisable(true);
