@@ -73,7 +73,7 @@ public class IPUtil {
                 }
             }
         } catch (SocketException e) {
-            log.debug("Socket Exception: {}", e.getMessage(), e);
+            log.error("Socket Exception: ", e);
         }
         callback.done(hostInfoList);
         return hostInfoList;
@@ -121,7 +121,7 @@ public class IPUtil {
             //E 类：240.0.0.0 到 255.255.255.255
 
         } catch (Exception e) {
-            log.debug("判断是否为公网 IP 时发生异常: " + dotIP);
+            log.warn("判断是否为公网 IP 时发生异常: {}", dotIP, e);
             return false;
         }
         return false;

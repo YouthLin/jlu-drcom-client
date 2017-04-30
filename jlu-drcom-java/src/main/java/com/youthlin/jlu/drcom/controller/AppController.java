@@ -54,7 +54,7 @@ import static com.youthlin.utils.i18n.Translation._x;
  * Created by lin on 2017-01-08-008.
  * 登录页面
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
 public class AppController implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(AppController.class);
     public Menu fileMenu;
@@ -87,7 +87,7 @@ public class AppController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.debug("初始化界面...");
+        log.info("初始化界面...");
         welcomeText.setText(__("Welcome to use JLU Drcom (Java Version)"));
         fileMenu.setText(__("File(F)"));
         noticeMenuItem.setText(_x("Notice", "校园网通知"));
@@ -104,7 +104,7 @@ public class AppController implements Initializable {
         rememberLabel.setText(__("Remember"));
         autoLoginLabel.setText(__("Auto Login"));
         loginButton.setText(__("Login(L)"));
-        logoutButton.setText(__("Logout(X)"));
+        logoutButton.setText(__("Quit(X)"));
         statusLabel.setText(__("Ready"));
         Drcom.setAppController(this);
         imageView.setImage(loading);
@@ -158,7 +158,7 @@ public class AppController implements Initializable {
     }
 
     private void readNamePass() {
-        log.debug("读取配置文件中用户名密码信息...");
+        log.info("读取配置文件中用户名密码信息...");
         File file = new File(Constants.CONF_HOME, Constants.CONF_FILE_NAME);
         if (file.exists()) {
             try {
@@ -180,7 +180,7 @@ public class AppController implements Initializable {
                         }
                     }
                 } catch (Exception e) {
-                    log.debug("读取保存的密码时出现异常, 可能的原因: 上次未正确关闭软件. {}", e.getMessage(), e);
+                    log.error("读取保存的密码时出现异常, 可能的原因: 上次未正确关闭软件.", e);
                     pass = "";
                 }//第一个版本是明文
                 ///log.trace("load pass = {}", pass);
@@ -189,18 +189,18 @@ public class AppController implements Initializable {
                 rememberCheckBox.setSelected(Boolean.valueOf(conf.getProperty(Constants.KEY_REMEMBER, "true")));
                 autoLoginCheckBox.setSelected(Boolean.valueOf(conf.getProperty(Constants.KEY_AUTO_LOGIN, "false")));
                 // 获取 MAC 后才自动登录
-                log.debug("读取配置文件完成");
+                log.info("读取配置文件完成");
             } catch (IOException e) {
-                log.debug("读取配置文件时 IO 异常", e);
+                log.error("读取配置文件时 IO 异常", e);
                 e.printStackTrace();
             }
         } else {
-            log.debug("配置文件不存在");
+            log.warn("配置文件不存在");
         }
     }
 
     private void readNetWorkInfo() {
-        log.debug("获取网络接口信息...");
+        log.info("获取网络接口信息...");
         statusLabel.setText(__("Getting network interface information..."));
         long start = System.currentTimeMillis();
         new Thread(() -> IPUtil.getHostInfo(
@@ -212,7 +212,7 @@ public class AppController implements Initializable {
 
                     @Override
                     public void done(List<HostInfo> hostInfoList) {
-                        log.debug("获取网络接口信息完成.[用时:{}ms]", System.currentTimeMillis() - start);
+                        log.info("获取网络接口信息完成.[用时:{}ms]", System.currentTimeMillis() - start);
                         Platform.runLater(() -> {
                             macComboBox.getItems().addAll(hostInfoList);
                             if (hostInfoList.size() == 1) {
@@ -224,7 +224,7 @@ public class AppController implements Initializable {
                                     }
                                 }
                             }
-                            log.debug("初始化界面完成.[用时:{}ms]", System.currentTimeMillis() - start);
+                            log.info("初始化界面完成.[用时:{}ms]", System.currentTimeMillis() - start);
                             readMac();
                         });
                     }
@@ -234,7 +234,7 @@ public class AppController implements Initializable {
     }
 
     private void readMac() {
-        log.debug("读取配置文件中 MAC 地址信息...");
+        log.info("读取配置文件中 MAC 地址信息...");
         File file = new File(Constants.CONF_HOME, Constants.CONF_FILE_NAME);
         if (file.exists()) {
             try {
@@ -267,15 +267,14 @@ public class AppController implements Initializable {
                     macComboBox.getItems().add(hostInfo);
                     macComboBox.getSelectionModel().select(hostInfo);
                 }
-                log.debug("读取配置文件完成");
+                log.info("读取配置文件完成");
             } catch (IOException e) {
-                log.debug("读取配置文件时 IO 异常", e);
-                e.printStackTrace();
+                log.error("读取配置文件时 IO 异常", e);
             } finally {
                 readConfDone();
             }
         } else {
-            log.debug("配置文件不存在");
+            log.warn("配置文件不存在");
             readConfDone();
         }
     }
@@ -357,7 +356,7 @@ public class AppController implements Initializable {
                 username, "*" + password.length() + '*', macHexDash, remember, auto);
         File file = new File(Constants.CONF_HOME, Constants.CONF_FILE_NAME);
         if (remember) {
-            log.trace("写入配置文件...");
+            log.info("写入配置文件...");
             Properties conf = new Properties();
             conf.put(Constants.KEY_USERNAME, username);
             {
@@ -389,7 +388,7 @@ public class AppController implements Initializable {
                 }
                 conf.store(new FileWriter(file), "Config file for Dr.Com(Java) By YouthLin");
             } catch (Exception e) {
-                log.debug("保存配置文件时发生异常", e);
+                log.error("保存配置文件时发生异常", e);
                 FxUtil.showAlertWithException(new Exception("保存配置文件时发生异常", e));
             }
         } else {
@@ -400,7 +399,7 @@ public class AppController implements Initializable {
                     //noinspection ResultOfMethodCallIgnored
                     file.delete();
                 } catch (Exception e) {
-                    log.debug("删除配置文件异常");
+                    log.warn("删除配置文件异常");
                 }
             }
         }

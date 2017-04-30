@@ -69,7 +69,7 @@ public class Drcom extends Application {
         log.trace("重命名 Fx 线程名称为{}", Thread.currentThread().getName());
         Drcom.stage = stage;
         if (!checkSingleton()) {
-            log.debug("已有运行中客户端");
+            log.warn("已有运行中客户端");
             Alert alert = FxUtil.buildAlert(__("There is a running client, no necessary to start a new client."));
             alert.setHeaderText(__("Note: There is already a running client."));
             alert.setOnHiding(e -> Platform.exit());//关闭对话框后退出
@@ -82,9 +82,11 @@ public class Drcom extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.sizeToScene();
-        stage.setMinWidth(310);
+        stage.setMinWidth(320);
+        stage.setMaxWidth(320);
+        stage.setMinHeight(320);
+        stage.setMaxHeight(320);
         stage.centerOnScreen();
-        stage.setResizable(false);
         // https://gist.github.com/jewelsea/e231e89e8d36ef4e5d8a#file-javafxtrayiconsample-java-L39
         // instructs the javafx system not to exit implicitly when the last application window is shut.
         // 最后一个窗口关闭也不退出
@@ -124,7 +126,7 @@ public class Drcom extends Application {
                 r.writeLong(thisKey);//保存本次退出时用于加密的 key
             }
         } catch (IOException e) {
-            log.debug("IOException", e);
+            log.warn("IOException", e);
             return false;
         }
         return true;
@@ -185,7 +187,7 @@ public class Drcom extends Application {
                 }
             });
         } catch (Exception e) {
-            log.debug("Exception. 托盘不可用.", e);
+            log.error("Exception. 托盘不可用.", e);
         }
     }
 

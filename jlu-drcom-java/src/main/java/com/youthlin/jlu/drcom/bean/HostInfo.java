@@ -4,6 +4,7 @@ package com.youthlin.jlu.drcom.bean;
  * Created by lin on 2017-01-10-010.
  * 机器的IP、HostName、MAC等
  */
+@SuppressWarnings("unused")
 public class HostInfo {
     private final byte[] macBytes = new byte[6];
     private String hostname;

@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  * 简易浏览器
  * new/show 需要在 JavaFx 线程中
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Browser {
     public static final double prefWidth = 800;
     public static final double prefHeight = 600;

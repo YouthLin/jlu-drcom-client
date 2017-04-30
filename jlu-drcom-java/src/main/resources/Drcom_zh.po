@@ -42,6 +42,9 @@ msgstr "注销"
 msgid "Quit"
 msgstr "退出"
 
+msgid "Quit(X)"
+msgstr "退出(X)"
+
 #: com/youthlin/jlu/drcom/controller/AppController.java:91
 msgid "Welcome to use JLU Drcom (Java Version)"
 msgstr "欢迎使用 JLU Drcom Java 版"
