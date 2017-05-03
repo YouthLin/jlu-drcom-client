@@ -47,6 +47,7 @@ import java.util.ResourceBundle;
 import static com.youthlin.jlu.drcom.util.FxUtil.icon;
 import static com.youthlin.jlu.drcom.util.FxUtil.loading;
 import static com.youthlin.utils.i18n.Translation.__;
+import static com.youthlin.utils.i18n.Translation._f;
 import static com.youthlin.utils.i18n.Translation._x;
 
 
@@ -207,7 +208,7 @@ public class AppController implements Initializable {
                 new IPUtil.OnGetHostInfoCallback() {
                     @Override
                     public void update(int current, int total) {
-                        FxUtil.updateLabel(statusLabel, __("({0}/{1})Getting network interface information...", 0, current, total));
+                        FxUtil.updateLabel(statusLabel, _f("({0}/{1})Getting network interface information...", current, total));
                     }
 
                     @Override
@@ -322,7 +323,7 @@ public class AppController implements Initializable {
         boolean success = true;
         if (username == null || username.trim().length() == 0) {
             success = false;
-            tipLabel.setText(__("{0} Please input username.", 0, tipLabel.getText()));
+            tipLabel.setText(_f("{0} Please input username.", tipLabel.getText()));
             usernameTextField.requestFocus();
         }
         if (password == null || password.trim().length() == 0) {
@@ -330,14 +331,14 @@ public class AppController implements Initializable {
                 passwordField.requestFocus();
             }
             success = false;
-            tipLabel.setText(__("{0} Please input password.", 0, tipLabel.getText()));
+            tipLabel.setText(_f("{0} Please input password.", tipLabel.getText()));
         }
         if (item == null) {
             if (success) {
                 macComboBox.requestFocus();
             }
             success = false;
-            tipLabel.setText(__("{0} Please choose Mac.", 0, tipLabel.getText()));
+            tipLabel.setText(_f("{0} Please choose Mac.", tipLabel.getText()));
         }
         return success;
     }
@@ -447,7 +448,7 @@ public class AppController implements Initializable {
             yearStr = Constants.COPYRIGHT_YEAR_START;
         }
         Alert alert = FxUtil.buildAlert(/*TRANSLATORS: 0 year(eg:2017-2018). 1 Author nickname. 2 QQ Group. 3 CC by-nc-sa. 4 blog url.*/
-                __("© {0} {1}\nQQ Group: {2}\nLicense     : {3}\nArticle       : {4}", 0, yearStr, "Youth．霖", "597417651", "CC BY-NC-SA", Constants.ARTICLE_URL)
+                _f("© {0} {1}\nQQ Group: {2}\nLicense     : {3}\nArticle       : {4}", yearStr, "Youth．霖", "597417651", "CC BY-NC-SA", Constants.ARTICLE_URL)
         );
         ButtonType contact = new ButtonType(__("Contact Author"));
         ButtonType projectHome = new ButtonType(__("Project Home"));

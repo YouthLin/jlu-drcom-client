@@ -22,6 +22,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import static com.youthlin.utils.i18n.Translation.__;
+import static com.youthlin.utils.i18n.Translation._f;
 
 /**
  * Created by lin on 2017-01-11-011.
@@ -92,14 +93,14 @@ public class DrcomTask implements Runnable {
             if (!challenge(challengeTimes++)) {
                 log.warn("challenge failed...");
                 /*TRANSLATORS: 0 Exception code*/
-                throw new DrcomException(__("Server refused the request.{0}", 0, DrcomException.CODE.ex_challenge));
+                throw new DrcomException(_f("Server refused the request.{0}", DrcomException.CODE.ex_challenge));
             }
 
             Thread.currentThread().setName("L o g i n");
             if (!login()) {
                 log.warn("login failed...");
                 /*TRANSLATORS: 0 Exception code*/
-                throw new DrcomException(__("Failed to send authentication information.{0}", 0, DrcomException.CODE.ex_login));
+                throw new DrcomException(_f("Failed to send authentication information.{0}", DrcomException.CODE.ex_login));
             }
 
             log.info("登录成功!");
@@ -190,9 +191,9 @@ public class DrcomTask implements Runnable {
             log.warn("challenge fail, unrecognized response.【{}】", ByteUtil.toHexString(buf));
             return false;
         } catch (SocketTimeoutException e) {
-            throw new DrcomException(__("Challenge server failed, time out. {0}", 0, DrcomException.CODE.ex_challenge));
+            throw new DrcomException(_f("Challenge server failed, time out. {0}", DrcomException.CODE.ex_challenge));
         } catch (IOException e) {
-            throw new DrcomException(__("Failed to send authentication information. {0}", 0, DrcomException.CODE.ex_challenge));
+            throw new DrcomException(_f("Failed to send authentication information. {0}", DrcomException.CODE.ex_challenge));
         }
     }
 
