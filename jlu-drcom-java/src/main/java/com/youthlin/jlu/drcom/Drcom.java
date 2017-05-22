@@ -28,6 +28,8 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static com.youthlin.jlu.drcom.util.FxUtil.icon;
 import static com.youthlin.utils.i18n.Translation.__;
@@ -81,7 +83,6 @@ public class Drcom extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.sizeToScene();
         stage.setMinWidth(320);
         stage.setMaxWidth(320);
         stage.setMinHeight(320);
@@ -134,11 +135,12 @@ public class Drcom extends Application {
 
     @Override
     public void stop() throws Exception {
-        SystemTray.getSystemTray().remove(trayIcon);
         if (appController != null) {
             appController.updateConf();//退出时再检查配置文件是否发生改变
         }
+        removeTrayIcon();
         log.debug("stop app.");
+        System.exit(0);//强制退出（如果不写，Mac 下退出不了。。。
     }
 
     private void enableTray(final Stage stage) {
@@ -188,6 +190,23 @@ public class Drcom extends Application {
             });
         } catch (Exception e) {
             log.error("Exception. 托盘不可用.", e);
+        }
+    }
+
+    private void removeTrayIcon() {
+        CountDownLatch latch = new CountDownLatch(1);
+        new Thread(() -> {
+            log.debug("准备移除托盘图标...");
+            SystemTray.getSystemTray().remove(trayIcon);//这里 remove 方法里的 doDispose 会在 Mac 下阻塞，回不来
+            log.debug("托盘图标已移除。");
+            latch.countDown();
+        }, "StpThread").start();
+        try {
+            if (!latch.await(3, TimeUnit.SECONDS)) {
+                log.debug("移除托盘图标等待超时……");
+            }
+        } catch (InterruptedException e) {
+            log.debug("", e);
         }
     }
 

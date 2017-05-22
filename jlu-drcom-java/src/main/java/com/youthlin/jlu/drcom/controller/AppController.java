@@ -429,7 +429,7 @@ public class AppController implements Initializable {
     }
 
     public void onExitMenuItemClick(ActionEvent actionEvent) {
-        log.trace("点击退出菜单项...");
+        log.trace("点击退出菜单项...{},{}", actionEvent.getSource(), actionEvent.getTarget());
         logout();
         Platform.exit();
     }
@@ -505,6 +505,11 @@ public class AppController implements Initializable {
     //endregion
 
     public void onKeyReleased(KeyEvent event) {
+        processKeyOnTextfiled(event);
+        processFunctionKey(event);
+    }
+
+    private void processKeyOnTextfiled(KeyEvent event) {
         KeyCode keyCode = event.getCode();
         EventTarget target = event.getTarget();
         //log.trace("event={},target={}", event, target);
@@ -531,23 +536,32 @@ public class AppController implements Initializable {
                 usernameTextField.requestFocus();
             }
         }
-        if (event.isAltDown()) {
-            if (KeyCode.L.equals(keyCode)) {//登录注销快捷键 ALT+L
+    }
+
+    private void processFunctionKey(KeyEvent event) {
+        KeyCode keyCode = event.getCode();
+        if (event.isAltDown() || event.isMetaDown()) {
+            if (KeyCode.L.equals(keyCode)) {//登录注销快捷键 ALT + L / Command + L
                 onLoginButtonClick(new ActionEvent(event.getSource(), loginButton));
-            } else if (KeyCode.X.equals(keyCode)) {//退出 ALT+X
+            } else if (KeyCode.X.equals(keyCode)) {//退出 ALT + X / Command + X
                 onExitMenuItemClick(new ActionEvent(event.getSource(), logoutButton));
-            } else if (KeyCode.F.equals(keyCode)) {
-                //文件菜单
+            }
+            //显示文件菜单 Mac 下好像无效ㄟ( ▔, ▔ )ㄏ
+            else if (KeyCode.F.equals(keyCode)) {
                 fileMenu.show();
             } else if (KeyCode.H.equals(keyCode)) {
                 helpMenu.show();
             }
         }
-        if (event.isControlDown()) {
+        if (event.isControlDown() || event.isMetaDown()) {
             if (KeyCode.W.equals(keyCode)) {
                 Drcom.getStage().hide();
             }
+            if (KeyCode.Q.equals(keyCode)) {
+                onExitMenuItemClick(new ActionEvent(event.getSource(), logoutButton));
+            }
         }
+
     }
 
     public void onNoticeMenuItemClick(ActionEvent e) {
