@@ -52,20 +52,21 @@ public class Browser {
             }
         });
         webView.setOnKeyReleased(event -> {
-            if (event.isControlDown() && KeyCode.L.equals(event.getCode())) {
+            if ((event.isControlDown() || event.isMetaDown()) && KeyCode.L.equals(event.getCode())) {
                 urlBar.requestFocus();//仿浏览器 CTRL+L 定位到地址栏
             }
         });
         pane.setOnKeyReleased(event -> {
             KeyCode code = event.getCode();
-            if (event.isControlDown()) {
+            if (event.isControlDown() || event.isMetaDown()) {
                 if ((KeyCode.W.equals(code)) || KeyCode.Q.equals(code)) {
                     stage.hide();//CTRL+W 或 CTRL+Q 关闭
+                    stage.close();
                 } else if (KeyCode.R.equals(code) || KeyCode.F5.equals(code)) {
                     reload();//CTRL+R CTRL+F5 重新加载
                 }
             }
-            if (event.isAltDown()) {
+            if (event.isAltDown() || event.isMetaDown()) {
                 if (KeyCode.LEFT.equals(code)) {
                     back();//ALT+LEFT
                 } else if (KeyCode.RIGHT.equals(code)) {
