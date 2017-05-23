@@ -42,7 +42,8 @@ keep38 -> keep40_1 -> keep40_2
 keep38 -> keep40_1 -> keep40_2  
 (第二轮 每十个 keep38 需要再次发送 keep40_extra)  
 keep38 -> keep40_extra -> keep40_1 -> keep40_2  
-...
+...  
+TODO：时间间隔  
 
 - 注销  
 challenge -> logout
